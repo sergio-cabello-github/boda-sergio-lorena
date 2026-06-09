@@ -649,100 +649,86 @@
 </footer>
 
 <script>
-    // =============================
-    // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
-    // =============================
-    // const SCRIPT_URL = "https://script.google.com/home/projects/1J66QJfXNhj1y4G6RH34W0fMVVybsD--nIr-mRdA0EhgdjOSnE9QtEHeU/exec";
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZxqDd8osVrZEbIqOCPx3b50dliAZqIdLb2afqi-Nk1jjWvS1t5cIdBDMI36iSfiv5dQ/exec";
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZxqDd8osVrZEbIqOCPx3b50dliAZqIdLb2afqi-Nk1jjWvS1t5cIdBDMI36iSfiv5dQ/exec";
 
-    const form = document.getElementById("rsvpForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const statusBox = document.getElementById("statusBox");
+  const form = document.getElementById("rsvpForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const statusBox = document.getElementById("statusBox");
 
-    const errorNombre = document.getElementById("error-nombre");
-    const errorEmail = document.getElementById("error-email");
+  const errorNombre = document.getElementById("error-nombre");
+  const errorEmail = document.getElementById("error-email");
 
-    function resetErrors() {
-      errorNombre.textContent = "";
-      errorEmail.textContent = "";
+  function resetErrors() {
+    errorNombre.textContent = "";
+    errorEmail.textContent = "";
+  }
+
+  function showStatus(type, message) {
+    statusBox.style.display = "block";
+    statusBox.className = "status " + type;
+    statusBox.textContent = message;
+  }
+
+  function validateEmail(email) {
+    return /^\S+@\S+\.\S+$/.test(email);
+  }
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    resetErrors();
+    statusBox.style.display = "none";
+
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    let hasError = false;
+
+    if (!data.nombre || !data.nombre.trim()) {
+      errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
+      hasError = true;
     }
 
-    function showStatus(type, message) {
-      statusBox.style.display = "block";
-      statusBox.className = "status " + type;
-      statusBox.textContent = message;
+    if (!data.email || !data.email.trim()) {
+      errorEmail.textContent = "Necesitamos tu email para contactarte.";
+      hasError = true;
+    } else if (!validateEmail(data.email)) {
+      errorEmail.textContent = "El email no parece válido.";
+      hasError = true;
     }
 
-    function validateEmail(email) {
-      return /^\S+@\S+\.\S+$/.test(email);
+    if (hasError) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
+
+    try {
+      const payload = {
+        ...data,
+        event: "Sergio & Lorena",
+        fechaEvento: "2 de octubre de 2027",
+        destinatarios: "sergi.cabello@gmail.com, lorena.hercab@outlook.es",
+        timestamp: new Date().toISOString()
+      };
+
+      await fetch(SCRIPT_URL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "text/plain;charset=utf-8"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      form.reset();
+      showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
+    } catch (error) {
+      console.error(error);
+      showStatus("error", "Ha habido un problema al enviar la confirmación.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Enviar confirmación";
     }
-
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      resetErrors();
-      statusBox.style.display = "none";
-
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData.entries());
-
-      let hasError = false;
-
-      if (!data.nombre || !data.nombre.trim()) {
-        errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
-        hasError = true;
-      }
-
-      if (!data.email || !data.email.trim()) {
-        errorEmail.textContent = "Necesitamos tu email para contactarte.";
-        hasError = true;
-      } else if (!validateEmail(data.email)) {
-        errorEmail.textContent = "El email no parece válido.";
-        hasError = true;
-      }
-
-      if (hasError) return;
-
-      if (!SCRIPT_URL || SCRIPT_URL.includes("PEGA_AQUI")) {
-        showStatus("error", "Falta conectar la web con Google Apps Script. Primero debes pegar la URL del script.");
-        return;
-      }
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Enviando...";
-
-      try {
-        const payload = {
-          ...data,
-          event: "Sergio & Lorena",
-          fechaEvento: "2 de octubre de 2027",
-          destinatarios: "sergi.cabello@gmail.com, lorena.hercab@outlook.es",
-          timestamp: new Date().toISOString()
-        };
-
-        const response = await fetch(SCRIPT_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "text/plain;charset=utf-8"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        const resultText = await response.text();
-
-        if (!response.ok || !resultText.toLowerCase().includes("ok")) {
-          throw new Error("Respuesta no válida del servidor");
-        }
-
-        form.reset();
-        showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
-      } catch (error) {
-        console.error(error);
-        showStatus("error", "Ha habido un problema al enviar la confirmación. Inténtalo de nuevo en unos minutos.");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Enviar confirmación";
-      }
-    });
+  });
 </script>
 </body>
 </html>
