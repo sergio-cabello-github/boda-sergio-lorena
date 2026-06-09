@@ -679,44 +679,43 @@
     statusBox.style.display = "none";
 
     const formData = new FormData(form);
-    const data = Object.fromEntries(formData.entries());
+
+    const nombre = formData.get("nombre");
+    const email = formData.get("email");
 
     let hasError = false;
 
-    if (!data.nombre || !data.nombre.trim()) {
+    if (!nombre || !nombre.trim()) {
       errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
       hasError = true;
     }
 
-    if (!data.email || !data.email.trim()) {
+    if (!email || !email.trim()) {
       errorEmail.textContent = "Necesitamos tu email para contactarte.";
       hasError = true;
-    } else if (!validateEmail(data.email)) {
+    } else if (!validateEmail(email)) {
       errorEmail.textContent = "El email no parece válido.";
       hasError = true;
     }
 
     if (hasError) return;
 
+    formData.append("evento", "Sergio & Lorena");
+    formData.append("fechaEvento", "2 de octubre de 2027");
+
     submitBtn.disabled = true;
     submitBtn.textContent = "Enviando...";
 
     try {
-      const payload = {
-        ...data,
-        event: "Sergio & Lorena",
-        fechaEvento: "2 de octubre de 2027",
-        destinatarios: "sergi.cabello@gmail.com, lorena.hercab@outlook.es",
-        timestamp: new Date().toISOString()
-      };
+      const body = new URLSearchParams(formData);
 
       await fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: {
-          "Content-Type": "text/plain;charset=utf-8"
+          "Content-Type": "application/x-www-form-urlencoded"
         },
-        body: JSON.stringify(payload)
+        body: body.toString()
       });
 
       form.reset();
