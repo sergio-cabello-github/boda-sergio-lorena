@@ -1,61 +1,747 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Boda Sergio & Lorena</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body { font-family: Arial; background: #f7f2ee; text-align:center; }
-    h1 { font-size: 40px; }
-    .box { background: white; padding:20px; margin:20px auto; max-width:600px; border-radius:15px; }
-    input, select, textarea { width:100%; padding:10px; margin:5px 0; }
-    button { padding:12px; background:black; color:white; border:none; cursor:pointer; }
-  </style>
-</head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sergio & Lorena — Nuestra Boda</title>
+    <meta name="description" content="Web de boda de Sergio y Lorena. Confirma tu asistencia y consulta la ubicación del evento." />
+    <style>
+        :root{
+          --bg: #f7f2ee;
+          --bg-soft: #efe4dc;
+          --card: #ffffff;
+          --text: #2f2a27;
+          --muted: #7a6f67;
+          --accent: #2d2a26;
+          --accent-2: #b89476;
+          --border: #e6ddd7;
+          --success-bg: #e8f7ee;
+          --success-text: #176a3a;
+          --error-bg: #fdecec;
+          --error-text: #9d2d2d;
+          --shadow: 0 10px 30px rgba(0,0,0,0.06);
+          --radius-xl: 28px;
+          --radius-lg: 20px;
+          --radius-md: 14px;
+          --max-width: 1180px;
+        }
 
+        * {
+          box-sizing: border-box;
+        }
+
+        html {
+          scroll-behavior: smooth;
+        }
+
+        body {
+          margin: 0;
+          font-family: "Georgia", "Times New Roman", serif;
+          background: var(--bg);
+          color: var(--text);
+          line-height: 1.5;
+        }
+
+        img {
+          max-width: 100%;
+          display: block;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .container {
+          width: min(100% - 32px, var(--max-width));
+          margin: 0 auto;
+        }
+
+        .btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          padding: 14px 22px;
+          border-radius: 18px;
+          border: 1px solid transparent;
+          font-size: 15px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+          background: var(--accent);
+          color: #fff;
+          box-shadow: var(--shadow);
+        }
+
+        .btn-primary:hover {
+          opacity: 0.92;
+          transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+          background: #fff;
+          color: var(--text);
+          border-color: var(--border);
+        }
+
+        .btn-secondary:hover {
+          background: #faf8f7;
+        }
+
+        .hero {
+          background:
+            radial-gradient(circle at 15% 20%, rgba(184,148,118,.18), transparent 24%),
+            radial-gradient(circle at 85% 10%, rgba(215,189,166,.18), transparent 24%),
+            linear-gradient(180deg, var(--bg-soft) 0%, #f6f1ed 40%, var(--bg) 100%);
+          padding: 64px 0 42px;
+        }
+
+        .hero-grid {
+          display: grid;
+          grid-template-columns: 1.05fr 0.95fr;
+          gap: 40px;
+          align-items: center;
+        }
+
+        .tag {
+          display: inline-block;
+          padding: 10px 14px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.8);
+          border: 1px solid var(--border);
+          font-size: 13px;
+          color: var(--muted);
+          box-shadow: var(--shadow);
+        }
+
+        h1 {
+          font-size: clamp(40px, 7vw, 74px);
+          line-height: 0.98;
+          margin: 18px 0 16px;
+          font-weight: 600;
+          letter-spacing: -0.03em;
+        }
+
+        .lead {
+          font-size: clamp(18px, 2vw, 22px);
+          color: #4b433e;
+          max-width: 700px;
+        }
+
+        .meta-cards {
+          margin-top: 28px;
+          display: grid;
+          grid-template-columns: repeat(3, minmax(0,1fr));
+          gap: 12px;
+        }
+
+        .meta-card {
+          background: rgba(255,255,255,0.86);
+          border: 1px solid var(--border);
+          border-radius: 22px;
+          padding: 16px;
+          box-shadow: var(--shadow);
+        }
+
+        .meta-card .label {
+          font-size: 12px;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          color: var(--muted);
+          margin-bottom: 6px;
+        }
+
+        .meta-card .value {
+          font-size: 17px;
+          font-weight: 600;
+        }
+
+        .hero-actions {
+          margin-top: 26px;
+          display: flex;
+          gap: 12px;
+          flex-wrap: wrap;
+        }
+
+        .gallery-hero {
+          display: grid;
+          grid-template-columns: repeat(2, 1fr);
+          gap: 14px;
+        }
+
+        .gallery-hero img {
+          width: 100%;
+          object-fit: cover;
+          border-radius: var(--radius-xl);
+          box-shadow: 0 16px 30px rgba(0,0,0,0.12);
+        }
+
+        .gallery-hero img:nth-child(1) {
+          height: 280px;
+        }
+
+        .gallery-hero img:nth-child(2) {
+          height: 280px;
+          margin-top: 42px;
+        }
+
+        .gallery-hero img:nth-child(3) {
+          grid-column: 1 / -1;
+          height: 270px;
+        }
+
+        .section {
+          padding: 56px 0;
+        }
+
+        .cards-row {
+          display: grid;
+          grid-template-columns: 1fr 2fr;
+          gap: 18px;
+        }
+
+        .card {
+          background: var(--card);
+          border: 1px solid var(--border);
+          border-radius: var(--radius-xl);
+          padding: 28px;
+          box-shadow: var(--shadow);
+        }
+
+        .eyebrow {
+          font-size: 12px;
+          text-transform: uppercase;
+          letter-spacing: 0.16em;
+          color: var(--muted);
+          margin: 0 0 10px;
+        }
+
+        h2 {
+          margin: 0 0 12px;
+          font-size: clamp(28px, 3vw, 42px);
+          line-height: 1.1;
+          font-weight: 600;
+        }
+
+        h3 {
+          margin: 0 0 10px;
+          font-size: 24px;
+        }
+
+        p {
+          margin: 0;
+        }
+
+        .muted {
+          color: var(--muted);
+        }
+
+        .main-grid {
+          display: grid;
+          grid-template-columns: 1.05fr 0.95fr;
+          gap: 24px;
+          align-items: start;
+        }
+
+        form {
+          margin-top: 26px;
+          display: grid;
+          gap: 16px;
+        }
+
+        .form-grid-2,
+        .form-grid-3 {
+          display: grid;
+          gap: 16px;
+        }
+
+        .form-grid-2 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .form-grid-3 {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        label {
+          display: block;
+          font-size: 14px;
+          font-weight: 600;
+          margin-bottom: 8px;
+        }
+
+        input,
+        select,
+        textarea {
+          width: 100%;
+          border: 1px solid var(--border);
+          border-radius: 18px;
+          padding: 14px 16px;
+          font-size: 15px;
+          font-family: inherit;
+          background: #fff;
+          color: var(--text);
+          outline: none;
+          transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+          border-color: #b8a89b;
+          box-shadow: 0 0 0 4px rgba(184,148,118,0.12);
+        }
+
+        textarea {
+          resize: vertical;
+          min-height: 120px;
+        }
+
+        .hint-box {
+          background: #f8f4f1;
+          border: 1px solid var(--border);
+          border-radius: 18px;
+          padding: 14px 16px;
+          font-size: 14px;
+          color: #5d544f;
+        }
+
+        .status {
+          border-radius: 16px;
+          padding: 14px 16px;
+          font-size: 14px;
+          font-weight: 600;
+        }
+
+        .status.success {
+          background: var(--success-bg);
+          color: var(--success-text);
+        }
+
+        .status.error {
+          background: var(--error-bg);
+          color: var(--error-text);
+        }
+
+        .error {
+          color: #b3261e;
+          font-size: 13px;
+          margin-top: 6px;
+        }
+
+        .sidebar {
+          display: grid;
+          gap: 20px;
+        }
+
+        .map-wrap {
+          overflow: hidden;
+          border-radius: 24px;
+          border: 1px solid var(--border);
+          margin-top: 18px;
+        }
+
+        .map-wrap iframe {
+          width: 100%;
+          height: 330px;
+          border: 0;
+          display: block;
+        }
+
+        .gallery-grid {
+          margin-top: 20px;
+          display: grid;
+          grid-template-columns: repeat(4, minmax(0,1fr));
+          gap: 14px;
+        }
+
+        .gallery-grid img {
+          border-radius: 24px;
+          height: 270px;
+          width: 100%;
+          object-fit: cover;
+          box-shadow: var(--shadow);
+        }
+
+        footer {
+          margin-top: 20px;
+          border-top: 1px solid var(--border);
+          background: rgba(255,255,255,0.75);
+        }
+
+        .footer-inner {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 16px;
+          padding: 26px 0;
+          color: var(--muted);
+          font-size: 14px;
+        }
+
+        @media (max-width: 1000px) {
+          .hero-grid,
+          .main-grid,
+          .cards-row {
+            grid-template-columns: 1fr;
+          }
+
+          .gallery-grid {
+            grid-template-columns: repeat(2, minmax(0,1fr));
+          }
+        }
+
+        @media (max-width: 720px) {
+          .meta-cards,
+          .form-grid-2,
+          .form-grid-3,
+          .gallery-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .gallery-hero {
+            grid-template-columns: 1fr;
+          }
+
+          .gallery-hero img:nth-child(2) {
+            margin-top: 0;
+          }
+
+          .gallery-hero img:nth-child(1),
+          .gallery-hero img:nth-child(2),
+          .gallery-hero img:nth-child(3) {
+            height: 240px;
+          }
+
+          .footer-inner {
+            flex-direction: column;
+            align-items: flex-start;
+          }
+
+          .hero {
+            padding-top: 42px;
+          }
+
+          .card {
+            padding: 22px;
+          }
+        }
+    </style>
+</head>
 <body>
 
-<h1>Sergio & Lorena</h1>
-<p>2 Octubre 2027</p>
-<p>Pinar del Pastor</p>
+<header class="hero">
+    <div class="container hero-grid">
+        <div>
+            <span class="tag">02 · 10 · 2027</span>
+            <h1>Sergio &amp; Lorena</h1>
+            <p class="lead">
+                Hola, queremos invitaros a nuestra boda. Nos hará muchísima ilusión celebrar este día tan especial con vosotros.
+            </p>
 
-<div class="box">
-  <h2>Confirma tu asistencia</h2>
+            <div class="meta-cards">
+                <div class="meta-card">
+                    <div class="label">Fecha</div>
+                    <div class="value">2 de octubre de 2027</div>
+                </div>
+                <div class="meta-card">
+                    <div class="label">Hora</div>
+                    <div class="value">Aún por definir</div>
+                </div>
+                <div class="meta-card">
+                    <div class="label">Lugar</div>
+                    <div class="value">Pinar del Pastor</div>
+                </div>
+            </div>
 
-  <form id="form">
-    <input name="nombre" placeholder="Nombre" required>
-    <input name="email" placeholder="Email" required>
-    <select name="asistencia">
-      <option value="si">Sí iré</option>
-      <option value="no">No podré</option>
-    </select>
-    <textarea name="mensaje" placeholder="Mensaje"></textarea>
-    <button type="submit">Enviar</button>
-  </form>
+            <div class="hero-actions">
+                <a href="#confirmacion" class="btn btn-primary">Confirmar asistencia</a>
+                <a href="https://maps.app.goo.gl/SbiuNeXaoRZ5wB9u7" target="_blank" rel="noreferrer" class="btn btn-secondary">Ver ubicación</a>
+            </div>
+        </div>
 
-  <p id="status"></p>
-</div>
+        <div class="gallery-hero">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80" alt="Foto demo de pareja 1" />
+            <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1400&q=80" alt="Foto demo de pareja 2" />
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80" alt="Foto demo romántica 3" />
+        </div>
+    </div>
+</header>
 
-<iframe 
-  src="https://www.google.com/maps?q=Pinar%20del%20Pastor&output=embed"
-  width="100%" height="300">
-</iframe>
+<main>
+    <section class="section">
+        <div class="container cards-row">
+            <div class="card">
+                <p class="eyebrow">Dress code</p>
+                <h3>Elegante</h3>
+                <p class="muted">
+                    Os esperamos con un estilo elegante para compartir juntos una celebración inolvidable.
+                </p>
+            </div>
+
+            <div class="card">
+                <p class="eyebrow">Información adicional</p>
+                <h3>Más detalles próximamente</h3>
+                <p class="muted">
+                    Más adelante compartiremos información sobre menú, niños, parking, alojamiento y cualquier otro detalle importante.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="confirmacion" class="section" style="padding-top: 0;">
+        <div class="container main-grid">
+            <div class="card">
+                <p class="eyebrow">RSVP</p>
+                <h2>Confirma tu asistencia</h2>
+                <p class="muted">
+                    Rellena el formulario para decirnos si podrás acompañarnos. También puedes indicarnos alergias, sugerencias de canciones o necesidades de transporte.
+                </p>
+
+                <form id="rsvpForm">
+                    <div>
+                        <label for="nombre">Nombre y apellidos</label>
+                        <input id="nombre" name="nombre" type="text" placeholder="Ej. Marta Pérez García" />
+                        <div class="error" id="error-nombre"></div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div>
+                            <label for="email">Email</label>
+                            <input id="email" name="email" type="email" placeholder="tu@email.com" />
+                            <div class="error" id="error-email"></div>
+                        </div>
+                        <div>
+                            <label for="telefono">Teléfono</label>
+                            <input id="telefono" name="telefono" type="text" placeholder="Opcional" />
+                        </div>
+                    </div>
+
+                    <div class="form-grid-3">
+                        <div>
+                            <label for="asistencia">¿Vendrás?</label>
+                            <select id="asistencia" name="asistencia">
+                                <option value="si">Sí, allí estaré</option>
+                                <option value="no">No podré asistir</option>
+                                <option value="quizas">Todavía no lo sé</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="asistentes">Nº de asistentes</label>
+                            <select id="asistentes" name="asistentes">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label for="ninos">¿Vendrás con niños?</label>
+                            <select id="ninos" name="ninos">
+                                <option value="">Selecciona</option>
+                                <option value="no">No</option>
+                                <option value="si">Sí</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div>
+                            <label for="alergias">Alergias o preferencias alimentarias</label>
+                            <textarea id="alergias" name="alergias" placeholder="Ej. vegetariano, gluten, frutos secos..."></textarea>
+                        </div>
+
+                        <div>
+                            <label for="mensaje">Mensaje para los novios</label>
+                            <textarea id="mensaje" name="mensaje" placeholder="Déjanos un mensaje bonito si te apetece"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-grid-2">
+                        <div>
+                            <label for="cancion">¿Qué canción te gustaría escuchar?</label>
+                            <input id="cancion" name="cancion" type="text" placeholder="Ej. Viva la Vida" />
+                        </div>
+
+                        <div>
+                            <label for="transporte">Transporte</label>
+                            <input id="transporte" name="transporte" type="text" placeholder="Ej. Necesito bus / Iré en coche" />
+                        </div>
+                    </div>
+
+                    <div class="hint-box">
+                        Las confirmaciones se enviarán a:
+                        <strong>sergi.cabello@gmail.com</strong> y
+                        <strong>lorena.hercab@outlook.es</strong>
+                    </div>
+
+                    <div style="display:flex; gap:12px; flex-wrap:wrap;">
+                        <button type="submit" class="btn btn-primary" id="submitBtn">Enviar confirmación</button>
+                    </div>
+
+                    <div id="statusBox" style="display:none;"></div>
+                </form>
+            </div>
+
+            <div class="sidebar">
+                <div class="card">
+                    <p class="eyebrow">Ubicación</p>
+                    <h3>Pinar del Pastor</h3>
+                    <p class="muted">
+                        Hemos dejado preparada la ubicación del evento para que puedas abrirla fácilmente en Google Maps.
+                    </p>
+
+                    <div class="map-wrap">
+                        <iframe
+                                src="https://www.google.com/maps?q=Pinar%20del%20Pastor&output=embed"
+                                loading="lazy"
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Mapa del evento"></iframe>
+                    </div>
+
+                    <div style="margin-top:16px;">
+                        <a href="https://maps.app.goo.gl/SbiuNeXaoRZ5wB9u7" target="_blank" rel="noreferrer" class="btn btn-secondary">
+                            Abrir ubicación exacta
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <p class="eyebrow">Detalle del evento</p>
+                    <h3>Un día muy especial</h3>
+                    <p class="muted">
+                        Gracias por acompañarnos en este momento tan importante. Más adelante actualizaremos esta web con más información práctica.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 12px;">
+        <div class="container">
+            <p class="eyebrow">Galería</p>
+            <h2>Algunos momentos bonitos</h2>
+            <p class="muted" style="max-width: 760px;">
+                He dejado fotos demo para que el diseño quede montado desde ya. Más adelante se sustituyen fácilmente por vuestras fotos reales.
+            </p>
+
+            <div class="gallery-grid">
+                <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1400&q=80" alt="Foto demo 1" />
+                <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1400&q=80" alt="Foto demo 2" />
+                <img src="https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1400&q=80" alt="Foto demo 3" />
+                <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?auto=format&fit=crop&w=1400&q=80" alt="Foto demo 4" />
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="container footer-inner">
+        <div>Web privada del evento — diseño elegante clásico.</div>
+        <div>Preparada para publicar gratis y conectar con Google Sheets.</div>
+    </div>
+</footer>
 
 <script>
-const scriptURL = "https://script.google.com/home/projects/1J66QJfXNhj1y4G6RH34W0fMVVybsD--nIr-mRdA0EhgdjOSnE9QtEHeU/exec";
+    // =============================
+    // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT
+    // =============================
+    const SCRIPT_URL = "https://script.google.com/home/projects/1J66QJfXNhj1y4G6RH34W0fMVVybsD--nIr-mRdA0EhgdjOSnE9QtEHeU/exec";
 
-document.getElementById("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const data = Object.fromEntries(new FormData(e.target));
-  
-  await fetch(scriptURL, {
-    method: "POST",
-    body: JSON.stringify(data)
-  });
+    const form = document.getElementById("rsvpForm");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusBox = document.getElementById("statusBox");
 
-  document.getElementById("status").innerText = "✅ Confirmación enviada";
-});
+    const errorNombre = document.getElementById("error-nombre");
+    const errorEmail = document.getElementById("error-email");
+
+    function resetErrors() {
+      errorNombre.textContent = "";
+      errorEmail.textContent = "";
+    }
+
+    function showStatus(type, message) {
+      statusBox.style.display = "block";
+      statusBox.className = "status " + type;
+      statusBox.textContent = message;
+    }
+
+    function validateEmail(email) {
+      return /^\S+@\S+\.\S+$/.test(email);
+    }
+
+    form.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      resetErrors();
+      statusBox.style.display = "none";
+
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      let hasError = false;
+
+      if (!data.nombre || !data.nombre.trim()) {
+        errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
+        hasError = true;
+      }
+
+      if (!data.email || !data.email.trim()) {
+        errorEmail.textContent = "Necesitamos tu email para contactarte.";
+        hasError = true;
+      } else if (!validateEmail(data.email)) {
+        errorEmail.textContent = "El email no parece válido.";
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      if (!SCRIPT_URL || SCRIPT_URL.includes("PEGA_AQUI")) {
+        showStatus("error", "Falta conectar la web con Google Apps Script. Primero debes pegar la URL del script.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Enviando...";
+
+      try {
+        const payload = {
+          ...data,
+          event: "Sergio & Lorena",
+          fechaEvento: "2 de octubre de 2027",
+          destinatarios: "sergi.cabello@gmail.com, lorena.hercab@outlook.es",
+          timestamp: new Date().toISOString()
+        };
+
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const resultText = await response.text();
+
+        if (!response.ok || !resultText.toLowerCase().includes("ok")) {
+          throw new Error("Respuesta no válida del servidor");
+        }
+
+        form.reset();
+        showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
+      } catch (error) {
+        console.error(error);
+        showStatus("error", "Ha habido un problema al enviar la confirmación. Inténtalo de nuevo en unos minutos.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar confirmación";
+      }
+    });
 </script>
-
 </body>
 </html>
