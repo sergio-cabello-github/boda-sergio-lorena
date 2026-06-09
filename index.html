@@ -502,91 +502,103 @@
             Rellena el formulario para decirnos si podrás acompañarnos. También puedes indicarnos alergias, sugerencias de canciones o necesidades de transporte.
           </p>
 
-          <form id="rsvpForm">
-            <div>
-              <label for="nombre">Nombre y apellidos</label>
-              <input id="nombre" name="nombre" type="text" placeholder="Ej. Marta Pérez García" />
-              <div class="error" id="error-nombre"></div>
-            </div>
+          <form
+  id="rsvpForm"
+  method="POST"
+  action="https://script.google.com/macros/s/AKfycbzZxqDd8osVrZEbIqOCPx3b50dliAZqIdLb2afqi-Nk1jjWvS1t5cIdBDMI36iSfiv5dQ/exec"
+  target="hidden_iframe"
+>
+  <div>
+    <label for="nombre">Nombre y apellidos</label>
+    <input id="nombre" name="nombre" type="text" placeholder="Ej. Marta Pérez García" />
+    <div class="error" id="error-nombre"></div>
+  </div>
 
-            <div class="form-grid-2">
-              <div>
-                <label for="email">Email</label>
-                <input id="email" name="email" type="email" placeholder="tu@email.com" />
-                <div class="error" id="error-email"></div>
-              </div>
-              <div>
-                <label for="telefono">Teléfono</label>
-                <input id="telefono" name="telefono" type="text" placeholder="Opcional" />
-              </div>
-            </div>
+  <div class="form-grid-2">
+    <div>
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" placeholder="tu@email.com" />
+      <div class="error" id="error-email"></div>
+    </div>
+    <div>
+      <label for="telefono">Teléfono</label>
+      <input id="telefono" name="telefono" type="text" placeholder="Opcional" />
+    </div>
+  </div>
 
-            <div class="form-grid-3">
-              <div>
-                <label for="asistencia">¿Vendrás?</label>
-                <select id="asistencia" name="asistencia">
-                  <option value="si">Sí, allí estaré</option>
-                  <option value="no">No podré asistir</option>
-                  <option value="quizas">Todavía no lo sé</option>
-                </select>
-              </div>
+  <div class="form-grid-3">
+    <div>
+      <label for="asistencia">¿Vendrás?</label>
+      <select id="asistencia" name="asistencia">
+        <option value="si">Sí, allí estaré</option>
+        <option value="no">No podré asistir</option>
+        <option value="quizas">Todavía no lo sé</option>
+      </select>
+    </div>
 
-              <div>
-                <label for="asistentes">Nº de asistentes</label>
-                <select id="asistentes" name="asistentes">
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                  <option value="4">4</option>
-                </select>
-              </div>
+    <div>
+      <label for="asistentes">Nº de asistentes</label>
+      <select id="asistentes" name="asistentes">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+      </select>
+    </div>
 
-              <div>
-                <label for="ninos">¿Vendrás con niños?</label>
-                <select id="ninos" name="ninos">
-                  <option value="">Selecciona</option>
-                  <option value="no">No</option>
-                  <option value="si">Sí</option>
-                </select>
-              </div>
-            </div>
+    <div>
+      <label for="ninos">¿Vendrás con niños?</label>
+      <select id="ninos" name="ninos">
+        <option value="">Selecciona</option>
+        <option value="no">No</option>
+        <option value="si">Sí</option>
+      </select>
+    </div>
+  </div>
 
-            <div class="form-grid-2">
-              <div>
-                <label for="alergias">Alergias o preferencias alimentarias</label>
-                <textarea id="alergias" name="alergias" placeholder="Ej. vegetariano, gluten, frutos secos..."></textarea>
-              </div>
+  <div class="form-grid-2">
+    <div>
+      <label for="alergias">Alergias o preferencias alimentarias</label>
+      <textarea id="alergias" name="alergias" placeholder="Ej. vegetariano, gluten, frutos secos..."></textarea>
+    </div>
 
-              <div>
-                <label for="mensaje">Mensaje para los novios</label>
-                <textarea id="mensaje" name="mensaje" placeholder="Déjanos un mensaje bonito si te apetece"></textarea>
-              </div>
-            </div>
+    <div>
+      <label for="mensaje">Mensaje para los novios</label>
+      <textarea id="mensaje" name="mensaje" placeholder="Déjanos un mensaje bonito si te apetece"></textarea>
+    </div>
+  </div>
 
-            <div class="form-grid-2">
-              <div>
-                <label for="cancion">¿Qué canción te gustaría escuchar?</label>
-                <input id="cancion" name="cancion" type="text" placeholder="Ej. Viva la Vida" />
-              </div>
+  <div class="form-grid-2">
+    <div>
+      <label for="cancion">¿Qué canción te gustaría escuchar?</label>
+      <input id="cancion" name="cancion" type="text" placeholder="Ej. Viva la Vida" />
+    </div>
 
-              <div>
-                <label for="transporte">Transporte</label>
-                <input id="transporte" name="transporte" type="text" placeholder="Ej. Necesito bus / Iré en coche" />
-              </div>
-            </div>
+    <div>
+      <label for="transporte">Transporte</label>
+      <input id="transporte" name="transporte" type="text" placeholder="Ej. Necesito bus / Iré en coche" />
+    </div>
+  </div>
 
-            <div class="hint-box">
-              Las confirmaciones se enviarán a:
-              <strong>sergi.cabello@gmail.com</strong> y
-              <strong>lorena.hercab@outlook.es</strong>
-            </div>
+  <!-- Campos ocultos -->
+  <input type="hidden" name="evento" value="Sergio & Lorena" />
+  <input type="hidden" name="fechaEvento" value="2 de octubre de 2027" />
 
-            <div style="display:flex; gap:12px; flex-wrap:wrap;">
-              <button type="submit" class="btn btn-primary" id="submitBtn">Enviar confirmación</button>
-            </div>
+  <div class="hint-box">
+    Las confirmaciones se enviarán a:
+    <strong>sergi.cabello@gmail.com</strong> y
+    <strong>lorena.hercab@outlook.es</strong>
+  </div>
 
-            <div id="statusBox" style="display:none;"></div>
-          </form>
+  <div style="display:flex; gap:12px; flex-wrap:wrap;">
+    <button type="submit" class="btn btn-primary" id="submitBtn">Enviar confirmación</button>
+  </div>
+
+  <div id="statusBox" style="display:none;"></div>
+</form>
+
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
         </div>
 
         <div class="sidebar">
@@ -649,90 +661,66 @@
   </footer>
 
   <script>
-    // =========================================================
-    // PEGA AQUÍ TU URL DE GOOGLE APPS SCRIPT (la /exec activa)
-    // =========================================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzZxqDd8osVrZEbIqOCPx3b50dliAZqIdLb2afqi-Nk1jjWvS1t5cIdBDMI36iSfiv5dQ/exec";
+  const form = document.getElementById("rsvpForm");
+  const submitBtn = document.getElementById("submitBtn");
+  const statusBox = document.getElementById("statusBox");
 
-    const form = document.getElementById("rsvpForm");
-    const submitBtn = document.getElementById("submitBtn");
-    const statusBox = document.getElementById("statusBox");
+  const errorNombre = document.getElementById("error-nombre");
+  const errorEmail = document.getElementById("error-email");
 
-    const errorNombre = document.getElementById("error-nombre");
-    const errorEmail = document.getElementById("error-email");
+  function resetErrors() {
+    errorNombre.textContent = "";
+    errorEmail.textContent = "";
+  }
 
-    function resetErrors() {
-      errorNombre.textContent = "";
-      errorEmail.textContent = "";
+  function showStatus(type, message) {
+    statusBox.style.display = "block";
+    statusBox.className = "status " + type;
+    statusBox.textContent = message;
+  }
+
+  function validateEmail(email) {
+    return /^\S+@\S+\.\S+$/.test(email);
+  }
+
+  form.addEventListener("submit", function (e) {
+    resetErrors();
+    statusBox.style.display = "none";
+
+    const nombre = document.getElementById("nombre").value;
+    const email = document.getElementById("email").value;
+
+    let hasError = false;
+
+    if (!nombre || !nombre.trim()) {
+      errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
+      hasError = true;
     }
 
-    function showStatus(type, message) {
-      statusBox.style.display = "block";
-      statusBox.className = "status " + type;
-      statusBox.textContent = message;
+    if (!email || !email.trim()) {
+      errorEmail.textContent = "Necesitamos tu email para contactarte.";
+      hasError = true;
+    } else if (!validateEmail(email)) {
+      errorEmail.textContent = "El email no parece válido.";
+      hasError = true;
     }
 
-    function validateEmail(email) {
-      return /^\S+@\S+\.\S+$/.test(email);
-    }
-
-    form.addEventListener("submit", async function (e) {
+    if (hasError) {
       e.preventDefault();
-      resetErrors();
-      statusBox.style.display = "none";
+      return;
+    }
 
-      const formData = new FormData(form);
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Enviando...";
 
-      const nombre = formData.get("nombre");
-      const email = formData.get("email");
+    setTimeout(() => {
+      form.reset();
+      showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Enviar confirmación";
+    }, 1500);
+  });
+</script>
 
-      let hasError = false;
-
-      if (!nombre || !nombre.trim()) {
-        errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
-        hasError = true;
-      }
-
-      if (!email || !email.trim()) {
-        errorEmail.textContent = "Necesitamos tu email para contactarte.";
-        hasError = true;
-      } else if (!validateEmail(email)) {
-        errorEmail.textContent = "El email no parece válido.";
-        hasError = true;
-      }
-
-      if (hasError) return;
-
-      // Añadimos campos extra que leerá Apps Script con e.parameter
-      formData.append("evento", "Sergio & Lorena");
-      formData.append("fechaEvento", "2 de octubre de 2027");
-
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Enviando...";
-
-      try {
-        const body = new URLSearchParams(formData);
-
-        await fetch(SCRIPT_URL, {
-          method: "POST",
-          mode: "no-cors",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-          },
-          body: body.toString()
-        });
-
-        form.reset();
-        showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
-      } catch (error) {
-        console.error(error);
-        showStatus("error", "Ha habido un problema al enviar la confirmación.");
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Enviar confirmación";
-      }
-    });
-  </script>
 </body>
 </html>
-``
