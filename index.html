@@ -716,7 +716,8 @@
           event: "Sergio & Lorena",
           fechaEvento: "2 de octubre de 2027",
           destinatarios: "sergi.cabello@gmail.com, lorena.hercab@outlook.es",
-          timestamp: new Date().toISOString()
+          timestamp: new Date().toISOString(),
+          fechaRegistro: new Date().toLocaleString("es-ES")
         };
 
         const response = await fetch(SCRIPT_URL, {
@@ -728,9 +729,12 @@
         });
 
         const resultText = await response.text();
+        console.log("Respuesta del servidor:", resultText);
 
-        if (!response.ok || !resultText.toLowerCase().includes("ok")) {
-          throw new Error("Respuesta no válida del servidor");
+        // Accept any 200 response, or a body containing "ok" or "success"
+        const bodyOk = resultText.toLowerCase().includes("ok") || resultText.toLowerCase().includes("success");
+        if (!response.ok && !bodyOk) {
+          throw new Error("Respuesta no válida del servidor: " + resultText);
         }
 
         form.reset();
