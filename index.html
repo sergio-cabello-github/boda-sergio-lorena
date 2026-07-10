@@ -684,19 +684,20 @@
 
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
+      data.email = (data.email || "").trim().toLowerCase(); // Email is the unique ID
 
       let hasError = false;
 
       if (!data.nombre || !data.nombre.trim()) {
-        errorNombre.textContent = "Por favor, indícanos tu nombre y apellidos.";
+        errorNombre.textContent = "Por favor, indicanos tu nombre y apellidos.";
         hasError = true;
       }
 
-      if (!data.email || !data.email.trim()) {
-        errorEmail.textContent = "Necesitamos tu email para contactarte.";
+      if (!data.email) {
+        errorEmail.textContent = "Necesitamos tu email para identificar tu confirmacion.";
         hasError = true;
       } else if (!validateEmail(data.email)) {
-        errorEmail.textContent = "El email no parece válido.";
+        errorEmail.textContent = "El email no parece valido.";
         hasError = true;
       }
 
@@ -710,41 +711,46 @@
       submitBtn.disabled = true;
       submitBtn.textContent = "Enviando...";
 
-    try {
-  const payload = {
-    ...data,
-    evento: "Sergio & Lorena",
-    fechaEvento: "2 de octubre de 2027"
-  };
+      try {
+        const payload = {
+          ...data,
+          evento: "Sergio & Lorena",
+          fechaEvento: "2 de octubre de 2027"
+        };
 
-  // URL-encoded body ensures Apps Script receives values in e.parameter
-  const encodedPayload = new URLSearchParams(payload).toString();
+        const encodedPayload = new URLSearchParams(payload).toString();
 
-  const response = await fetch(SCRIPT_URL, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    },
-    body: encodedPayload
-  });
+        const response = await fetch(SCRIPT_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+          },
+          body: encodedPayload
+        });
 
-  const resultText = await response.text();
-  console.log("Respuesta del servidor:", resultText);
+        const resultText = await response.text();
+        console.log("Respuesta del servidor:", resultText);
 
-  const bodyOk = resultText.toLowerCase().includes("ok") || resultText.toLowerCase().includes("success");
-  if (!response.ok && !bodyOk) {
-    throw new Error("Respuesta no válida del servidor: " + resultText);
-  }
+        const normalizedResult = resultText.toLowerCase();
+        const bodyOk = normalizedResult.includes("ok") || normalizedResult.includes("success");
+        if (!response.ok || !bodyOk) {
+          throw new Error("Respuesta no valida del servidor: " + resultText);
+        }
 
-  form.reset();
-  showStatus("success", "¡Gracias! Tu confirmación se ha enviado correctamente.");
-} catch (error) {
-  console.error(error);
-  showStatus("error", "Ha habido un problema al enviar la confirmación. Inténtalo de nuevo en unos minutos.");
-} finally {
-  submitBtn.disabled = false;
-  submitBtn.textContent = "Enviar confirmación";
-}
+        form.reset();
+        if (normalizedResult.includes("updated")) {
+          showStatus("success", "Hemos actualizado tu confirmacion existente (mismo email). Gracias.");
+        } else {
+          showStatus("success", "Gracias. Tu confirmacion se ha enviado correctamente.");
+        }
+      } catch (error) {
+        console.error(error);
+        showStatus("error", "Ha habido un problema al enviar la confirmacion. Intentalo de nuevo en unos minutos.");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Enviar confirmacion";
+      }
+    });
 </script>
 </body>
 </html>
